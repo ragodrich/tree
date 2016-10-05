@@ -8,9 +8,9 @@ def tree(currDir, space):
     dirCount = 0
     fileCount = 0
     dirPath = os.listdir(currDir)
-    childSpacing = 'â\x94\x9câ\x94\x80â\x94\x80 '
-    lineSpacing = 'â\x94\x82   '
-    endSpacing = 'â\x94\x94â\x94\x80â\x94\x80 '
+    childSpacing = '├── '
+    lineSpacing = '│   '
+    endSpacing = '└── '
     genSpacing = '    '
     files = []
 
