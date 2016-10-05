@@ -1,11 +1,59 @@
 #!/usr/bin/env python3
-import subprocess
 import sys
+from sys import argv
+import os
 
+def tree(currDir,space):
+    dirCount = 0
+    fileCount = 0
 
-# YOUR CODE GOES here
+    dirPath = os.listdir(currDir)
 
+    childSpacing = 'â\x94\x9câ\x94\x80â\x94\x80 '
+    lineSpacing = 'â\x94\x82   '
+    endSpacing = 'â\x94\x94â\x94\x80â\x94\x80 '
+    genSpacing = '    '
+    
+    files = []
+    
+    for file in dirPath:
+        if file[0] != '.':
+            files.append(file)
 
+    for i in range(len(files)):
+        if i < len(files) - 1:
+            print(space + childSpacing + files[i])
+            choice = lineSpacing
+        else:
+            print(space + endSpacing + files[i])
+            choice = genSpacing
+        nextUp = str(currDir+'/'+files[i])
+        if os.path.isfile(nextUp):
+            fileCount += 1
+        else:
+            dirCount += 1
+            tdc,tfc = tree(nextUp,str(space+choice))
+            dirCount += tdc
+            fileCount += tfc
+
+    return dirCount,fileCount
+
+def main():
+    if(len(argv) >= 2):
+        currDir = argv[1]
+    else:
+        currDir = "."
+    print(currDir)
+    dirCount, fileCount = tree(currDir,"")
+    print()
+    if (dirCount > 1 or dirCount == 0) and (fileCount > 1 or fileCount == 0):
+        print(str(dirCount) + ' directories, ' + str(fileCount) + ' files')
+    elif dirCount == 1 and fileCount > 1:
+        print(str(dirCount) + ' directory, ' + str(fileCount) + ' files')
+    elif dirCount > 1 and fileCount == 1:
+        print(str(dirCount) + ' directories, ' + str(fileCount) + ' file')
+    else:
+        print(str(dirCount) + ' directory, ' + str(fileCount) + ' file')
+        
 if __name__ == '__main__':
-    # just for demo
-    subprocess.run(['tree'] + sys.argv[1:])
+    main()
