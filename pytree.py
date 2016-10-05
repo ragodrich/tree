@@ -1,25 +1,23 @@
-#!/usr/bin/env python3
 import sys
 from sys import argv
 import os
 
-def tree(currDir,space):
+
+def tree(currDir, space):
+
     dirCount = 0
     fileCount = 0
-
     dirPath = os.listdir(currDir)
-
     childSpacing = 'â\x94\x9câ\x94\x80â\x94\x80 '
     lineSpacing = 'â\x94\x82   '
     endSpacing = 'â\x94\x94â\x94\x80â\x94\x80 '
     genSpacing = '    '
-    
     files = []
-    
+
     for file in dirPath:
         if file[0] != '.':
             files.append(file)
-
+    files = sorted(files, key=lambda s: s.lower())
     for i in range(len(files)):
         if i < len(files) - 1:
             print(space + childSpacing + files[i])
@@ -27,24 +25,26 @@ def tree(currDir,space):
         else:
             print(space + endSpacing + files[i])
             choice = genSpacing
-        nextUp = str(currDir+'/'+files[i])
+        nextUp = str(currDir + '/' + files[i])
         if os.path.isfile(nextUp):
             fileCount += 1
         else:
             dirCount += 1
-            tdc,tfc = tree(nextUp,str(space+choice))
+            tdc, tfc = tree(nextUp, str(space + choice))
             dirCount += tdc
             fileCount += tfc
 
-    return dirCount,fileCount
+    return dirCount, fileCount
 
-def main():
+
+if __name__ == '__main__':
+    os.getcwd()
     if(len(argv) >= 2):
         currDir = argv[1]
     else:
         currDir = "."
     print(currDir)
-    dirCount, fileCount = tree(currDir,"")
+    dirCount, fileCount = tree(currDir, "")
     print()
     if (dirCount > 1 or dirCount == 0) and (fileCount > 1 or fileCount == 0):
         print(str(dirCount) + ' directories, ' + str(fileCount) + ' files')
@@ -54,6 +54,3 @@ def main():
         print(str(dirCount) + ' directories, ' + str(fileCount) + ' file')
     else:
         print(str(dirCount) + ' directory, ' + str(fileCount) + ' file')
-        
-if __name__ == '__main__':
-    main()
